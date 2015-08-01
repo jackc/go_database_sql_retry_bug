@@ -28,8 +28,8 @@ the number of queries that database/sql reported were successful, then it
 appears that the retry logic is incorrect.
 
 It connects to PostgreSQL with both the [pq](https://github.com/lib/pq) and the
-[pgx](https://github.com/jackc/pgx) to ensure results are not specific to one
-database driver.
+[pgx](https://github.com/jackc/pgx) drivers to ensure results are not specific
+to one database driver.
 
 ## Installation
 
@@ -42,7 +42,7 @@ Create a database for the test.
     createdb go_database_sql_retry_bug
 
 Start the [cavein](https://github.com/jackc/cavein) tunnel proxy that will
-introduce connection drops..
+introduce connection drops.
 
     cavein -local=localhost:2999 -remote=localhost:5432 -minbytes=10000 -maxbytes=20000
 
