@@ -53,7 +53,7 @@ environment variables).
 
 ## Results
 
-As of Go 1.5beta2, it appears that the automatic retry logic in database/sql is
+As of Go 1.5beta3, it appears that the automatic retry logic in database/sql is
 unsafe.
 
     Testing with: github.com/jackc/pgx/stdlib
