@@ -70,16 +70,20 @@ func extractConfig() (config pgx.ConnPoolConfig, err error) {
 }
 
 func resetSchema(db *sql.DB) error {
+	setupSql := `drop table if exists t;
+create table t(n int not null);
+insert into t(n) values(0);`
+
 	var err error
 	for i := 0; i < 100; i++ {
-		_, err = db.Exec(`
-		drop table if exists t;
-		create table t(n int not null);
-		insert into t(n) values(0);`)
+		_, err = db.Exec(setupSql)
 		if err == nil {
+			fmt.Println()
+			fmt.Println("Setup database:")
+			fmt.Println(setupSql)
+			fmt.Println()
 			return nil
 		}
-
 	}
 
 	return err
@@ -108,9 +112,11 @@ func openPq(config pgx.ConnPoolConfig) (*sql.DB, error) {
 }
 
 func testUpdates(db *sql.DB, updateCount int) {
+	updateSql := "update t set n=n+1"
+
 	errCount := 0
 	for i := 0; i < updateCount; i++ {
-		_, err := db.Exec("update t set n=n+1")
+		_, err := db.Exec(updateSql)
 		if err != nil {
 			errCount += 1
 		}
@@ -129,7 +135,8 @@ func testUpdates(db *sql.DB, updateCount int) {
 		os.Exit(1)
 	}
 
-	fmt.Println("Exec'ed statements:", updateCount)
-	fmt.Println("Reported error count:", errCount)
-	fmt.Println("Actual updates:", actualUpdates)
+	fmt.Printf("Exec `%s` %d times\n", updateSql, updateCount)
+	fmt.Println("Reported errors:", errCount)
+	fmt.Println("Reported successes:", updateCount-errCount)
+	fmt.Println("Actual value of `select n from t`:", actualUpdates)
 }
