@@ -29,20 +29,24 @@ func main() {
 		os.Exit(1)
 	}
 
-	nameDb := map[string]*sql.DB{
-		"github.com/jackc/pgx/stdlib": pgxStdlib,
-		"github.com/lib/pq":           pq,
+	tests := []struct {
+		name string
+		db   *sql.DB
+	}{
+		{name: "github.com/jackc/pgx/stdlib", db: pgxStdlib},
+		{name: "github.com/lib/pq", db: pq},
 	}
 
-	for name, db := range nameDb {
-		err = resetSchema(db)
+	for _, t := range tests {
+		fmt.Println("Testing with:", t.name)
+		err = resetSchema(t.db)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "resetSchema failed:", err)
 			os.Exit(1)
 		}
 
-		fmt.Println("Testing with", name)
-		testUpdates(db, 10000)
+		testUpdates(t.db, 1000)
+		fmt.Println()
 	}
 }
 
