@@ -8,7 +8,7 @@ If database/sql executes a non-idempotent query, and that query is interrupted, 
 
 ## Experiment
 
-This application will connect to a database over a purposefully unreliable connection by using (cavein)[https://github.com/jackc/cavein].
+This application will connect to a database over a purposefully unreliable connection by using [cavein](https://github.com/jackc/cavein).
 
 This application creates a simple table with one row with a value of 0.
 
@@ -21,7 +21,7 @@ It then executes 1,000 update statements that increment that row.
 
 Finally, it selects that value. If there is a discrepancy between that value and the number of queries that database/sql reported were successful, then it appears that the retry logic is incorrect.
 
-It connects to PostgreSQL with both the (pq)[https://github.com/lib/pq] and the (pgx)[https://github.com/jackc/pgx] to ensure results are not specific to one database driver.
+It connects to PostgreSQL with both the [pq](https://github.com/lib/pq) and the [pgx](https://github.com/jackc/pgx) to ensure results are not specific to one database driver.
 
 ## Installation
 
@@ -33,7 +33,7 @@ Create a database for the test.
 
     createdb go_database_sql_retry_bug
 
-Start the (cavein)[https://github.com/jackc/cavein] tunnel proxy that will introduce connection drops..
+Start the [cavein](https://github.com/jackc/cavein) tunnel proxy that will introduce connection drops..
 
     cavein -local=localhost:2999 -remote=localhost:5432 -minbytes=10000 -maxbytes=20000
 
