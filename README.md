@@ -53,8 +53,7 @@ environment variables).
 
 ## Results
 
-As of Go 1.5beta3, it appears that the automatic retry logic in database/sql is
-unsafe.
+With further information from https://github.com/golang/go/issues/11978 it appears that this is not a bug in database/sql, but in the database driver(s).
 
     Testing with: github.com/jackc/pgx/stdlib
 
@@ -81,8 +80,9 @@ unsafe.
     Actual value of `select n from t`: 1001
 
 In both cases, the actual final value is higher than the number of reported
-successes. In the latter case with pq, the final value is actually higher than
-the total number of attempts.
+successes. This is to be expected. But in the latter case with pq, the final
+value is actually higher than the total number of attempts. This appears to be
+a bug with pq.
 
 To reproduce results, run cavein with the following arguments:
 
