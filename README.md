@@ -86,4 +86,4 @@ the total number of attempts.
 
 To reproduce results, run cavein with the following arguments:
 
-    cavein -local=localhost:2999 -remote=localhost:5432 -minbytes=10000 -maxbytes=200 -seed=5577006791947779410
+    cavein -local=localhost:2999 -remote=localhost:5432 -minbytes=10000 -maxbytes=20000 -seed=5577006791947779410
